@@ -40,15 +40,15 @@ func NewProxyChecker(cfg *config.Config) *ProxyChecker {
 	}
 
 	for i := 0; i < maxWorkers; i++ {
-		go pc.worker(cfg.CheckerUrlsCountExpected)
+		go pc.worker(cfg)
 	}
 
 	return pc
 }
 
-func (pc *ProxyChecker) worker(urlsCount int) {
+func (pc *ProxyChecker) worker(cfg *config.Config) {
 	for p := range pc.proxyChan {
-		checkProxy(p, urlsCount)
+		checkProxy(p, cfg)
 	}
 }
 
@@ -65,7 +65,7 @@ type proxyCheckResult struct {
 	detectedIP string
 }
 
-func checkProxy(lastProxy *proxy.Proxy, urlsCount int) {
+func checkProxy(lastProxy *proxy.Proxy, cfg *config.Config) {
 	mtx.Lock()
 	lastProxy.LastCheckedTime = time.Now()
 	lastProxy.IsWork = false
@@ -99,12 +99,12 @@ func checkProxy(lastProxy *proxy.Proxy, urlsCount int) {
 			totalPingTime += result.pingTime
 		}
 
-		if len(results) >= urlsCount {
+		if len(results) >= cfg.CheckerUrlsCountExpected {
 			break
 		}
 	}
 
-	successRate := float64(len(results)) / float64(urlsCount)
+	successRate := float64(len(results)) / float64(cfg.CheckerUrlsCountExpected)
 
 	mtx.Lock()
 	checkCounter++
