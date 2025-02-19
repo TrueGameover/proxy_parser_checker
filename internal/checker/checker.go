@@ -104,7 +104,7 @@ func checkProxy(lastProxy *proxy.Proxy, urlsCount int) {
 		}
 	}
 
-	successRate := float64(len(results)) / float64(len(checkURLs))
+	successRate := float64(len(results)) / float64(urlsCount)
 
 	mtx.Lock()
 	checkCounter++
