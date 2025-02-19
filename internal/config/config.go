@@ -9,14 +9,15 @@ import (
 )
 
 type Config struct {
-	SitesForParsing     []string `yaml:"sites_for_parsing"`
-	ParsePeriod         string   `yaml:"parse_period"`
-	ParsePeriodDuration time.Duration
-	CheckPeriod         string `yaml:"check_period"`
-	CheckPeriodDuration time.Duration
-	ServerPort          string `yaml:"server_port"`
-	CheckerMaxWorkers   int    `yaml:"checker_max_workers"`
-	ParserMaxWorkers    int    `yaml:"parser_max_workers"`
+	SitesForParsing          []string `yaml:"sites_for_parsing"`
+	ParsePeriod              string   `yaml:"parse_period"`
+	ParsePeriodDuration      time.Duration
+	CheckPeriod              string `yaml:"check_period"`
+	CheckPeriodDuration      time.Duration
+	ServerPort               string `yaml:"server_port"`
+	CheckerMaxWorkers        int    `yaml:"checker_max_workers"`
+	CheckerUrlsCountExpected int    `yaml:"checker_urls_count_expected"`
+	ParserMaxWorkers         int    `yaml:"parser_max_workers"`
 }
 
 var c Config
